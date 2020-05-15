@@ -15,6 +15,26 @@ $> ./src/postboy.py --path=<URL_PATH> <FILE>
 
 - python >= 3.5
 
+### Installation
+
+create a virtual env:
+
+```
+$> python3 -m venv venv
+```
+
+activate the virtual environment:
+
+```
+$> source venv/bin/activate
+```
+
+install dependencies:
+
+```
+$> pip install -r requirements.txt
+```
+
 ### Example
 
 with a file named `ips` containing the following:

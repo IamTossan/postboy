@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-import urllib.request
+import requests
 import json
 
 arg_parser = argparse.ArgumentParser()
@@ -15,13 +15,16 @@ with open(args.filename) as f:
         print(f"\ncalling: {target_url}")
 
         try:
-            contents = urllib.request.urlopen(target_url).read()
-        except urllib.error.HTTPError as e:
-            print(f'error: {e.reason}')
-        except urllib.error.URLError as e:
-            print(f'error: {e.reason}')
+            contents = requests.get(target_url)
+        except requests.exceptions.HTTPError as err:
+            print("Http Error:",err)
+        except requests.exceptions.ConnectionError as err:
+            print("Connection Error:",err)
+        except requests.exceptions.Timeout as err:
+            print("Timeout Error:",err)
+        except requests.exceptions.RequestException as err:
+            print("Error:",err)
         else:
-            json_data = json.loads(contents.decode("utf-8").replace("'", '"'))
-            print(json.dumps(json_data, indent=4, sort_keys=True))
+            print(json.dumps(contents.json(), indent=4, sort_keys=True))
 
 
