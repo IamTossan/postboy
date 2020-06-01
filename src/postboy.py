@@ -6,7 +6,8 @@ import json
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('filename')
-arg_parser.add_argument('--path', type=str)
+arg_parser.add_argument('-p', '--path', type=str)
+arg_parser.add_argument('-t', '--timeout', type=int, default=3)
 args = arg_parser.parse_args()
 
 with open(args.filename) as f:
@@ -15,7 +16,7 @@ with open(args.filename) as f:
         print(f"\ncalling: {target_url}")
 
         try:
-            contents = requests.get(target_url)
+            contents = requests.get(target_url, timeout=args.timeout)
         except requests.exceptions.HTTPError as err:
             print("Http Error:",err)
         except requests.exceptions.ConnectionError as err:
@@ -26,5 +27,3 @@ with open(args.filename) as f:
             print("Error:",err)
         else:
             print(json.dumps(contents.json(), indent=4, sort_keys=True))
-
-
